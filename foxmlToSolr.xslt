@@ -22,11 +22,7 @@
   xmlns:exts="xalan://dk.defxws.fedoragsearch.server.GenericOperationsImpl"
   xmlns:islandora-exts="xalan://ca.upei.roblib.DataStreamForXSLT"
             exclude-result-prefixes="exts"
-  xmlns:encoder="xalan://java.net.URLEncoder"
-  xmlns:java="http://xml.apache.org/xalan/java">
-  <!--  Used for indexing other objects.
-  xmlns:sparql="http://www.w3.org/2001/sw/DataAccess/rf1/result"
-  xmlns:xalan="http://xml.apache.org/xalan"> -->
+  xmlns:encoder="xalan://java.net.URLEncoder">
 
   <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
 
@@ -43,9 +39,6 @@
   <xsl:variable name="HOST">localhost</xsl:variable>
   <xsl:variable name="PORT">8080</xsl:variable>
   <xsl:variable name="PID" select="/foxml:digitalObject/@PID"/>
-  <!--  Used for indexing other objects.
-  <xsl:variable name="FEDORA" xmlns:java_string="xalan://java.lang.String" select="substring($FEDORASOAP, 1, java_string:lastIndexOf(java_string:new(string($FEDORASOAP)), '/'))"/>
-  -->
 
 
   <!--
@@ -62,60 +55,38 @@
      disable the ones you do not want to perform;
      the paths may need to be updated if the standard install was not followed
      TODO: look into a way to make these paths relative -->
-
+     
      <!-- older gsearches (slurp_all_MODS_to_solr also contains an include that would need to be
      altered if you use these)-->
-
-  <!-- The name of the 'config' directory has changed in newer versions of fedoragsearch.
-  If your installation uses 'WEB-INF/classes/config' enable the import block below, and
-  disable the import block using 'WEB-INF/classes/fgsconfigFinal'.
-  -->
-
-  <!--
+     <!--
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/DC_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/RELS-EXT_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/RELS-INT_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/FOXML_properties_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/datastream_info_to_solr.xslt"/>
+  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/datastream_id_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/slurp_all_MODS_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/slurp_all_ead_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/MODS_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/EACCPF_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/TEI_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/text_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/XML_to_one_solr_field.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/XML_text_nodes_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/MADS_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/WORKFLOW_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/slurp_all_chemicalML_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/library/traverse-graph.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/hierarchy.xslt"/>
-  -->
+    -->
 
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/DC_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/RELS-EXT_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/RELS-INT_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/FOXML_properties_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/datastream_info_to_solr.xslt"/>
+  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/datastream_id_to_solr.xslt"/>
   <!--<xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/MODS_to_solr.xslt"/>-->
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/slurp_all_MODS_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/slurp_all_ead_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/EACCPF_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/TEI_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/text_to_solr.xslt"/>
-  <!--<xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/XML_to_one_solr_field.xslt"/>-->
+  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/XML_to_one_solr_field.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/XML_text_nodes_to_solr.xslt"/>
   <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/MADS_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/WORKFLOW_to_solr.xslt"/>
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/slurp_all_chemicalML_to_solr.xslt"/>
-  <!--  Used for indexing other objects.
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/traverse-graph.xslt"/>
-  -->
-  <!-- Used to index the list of collections to which an object belongs.
-    Requires the "traverse-graph.xslt" bit as well.
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/hierarchy.xslt"/>
-  -->
-
+  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/DWC_to_solr.xslt"/>  
   <!-- Decide which objects to modify the index of -->
   <xsl:template match="/">
     <update>
@@ -128,54 +99,6 @@
                 <xsl:with-param name="PID" select="$PID"/>
               </xsl:apply-templates>
             </add>
-            <!-- Newspaper graph example.
-            <xsl:variable name="graph">
-              <xsl:call-template name="_traverse_graph">
-                <xsl:with-param name="risearch" select="concat($FEDORA, '/risearch')"/>
-                <xsl:with-param name="to_traverse_in">
-                  <sparql:result>
-                    <sparql:obj>
-                      <xsl:attribute name="uri">info:fedora/<xsl:value-of select="$PID"/></xsl:attribute>
-                    </sparql:obj>
-                  </sparql:result>
-                </xsl:with-param>
-                <xsl:with-param name="query">
-                  PREFIX fre: &lt;info:fedora/fedora-system:def/relations-external#&gt;
-                  PREFIX fm: &lt;info:fedora/fedora-system:def/model#&gt;
-                  PREFIX islandora: &lt;http://islandora.ca/ontology/relsext#&gt;
-                  SELECT ?obj
-                  FROM &lt;#ri&gt;
-                  WHERE {
-                    {
-                      &lt;%PID_URI%&gt; fm:hasModel &lt;info:fedora/islandora:newspaperCModel&gt; {
-                        ?issue fre:isMemberOf &lt;%PID_URI%&gt; .
-                        ?obj islandora:isPageOf ?issue
-                      }
-                      UNION {
-                        ?obj fre:isMemberOf &lt;%PID_URI%&gt;
-                      }
-                    }
-                    UNION {
-                      &lt;%PID_URI%&gt; fm:hasModel &lt;info:fedora/islandora:newspaperIssueCModel&gt; .
-                      ?obj islandora:isPageOf &lt;%PID_URI%&gt;
-                    }
-                    ?obj fm:state fm:Active
-                  }
-                </xsl:with-param>
-              </xsl:call-template>
-            </xsl:variable>
-            <add commitWithin="5000">
-              <xsl:for-each select="xalan:nodeset($graph)//sparql:obj[@uri != concat('info:fedora/', $PID)]">
-                <xsl:variable name="xml_url" select="concat(substring-before($FEDORA, '://'), '://', encoder:encode($FEDORAUSER), ':', encoder:encode($FEDORAPASS), '@', substring-after($FEDORA, '://') , '/objects/', substring-after(@uri, '/'), '/objectXML')"/>
-                <xsl:variable name="object" select="document($xml_url)"/>
-                <xsl:if test="$object">
-                  <xsl:apply-templates select="$object/foxml:digitalObject" mode="indexFedoraObject">
-                    <xsl:with-param name="PID" select="substring-after(@uri, '/')"/>
-                  </xsl:apply-templates>
-                </xsl:if>
-              </xsl:for-each>
-            </add>
-           -->
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates select="/foxml:digitalObject" mode="unindexFedoraObject"/>
@@ -214,7 +137,7 @@
               <xsl:with-param name="content" select="foxml:datastreamVersion[last()]/foxml:xmlContent"/>
             </xsl:apply-templates>
           </xsl:when>
-          <xsl:when test="@CONTROL_GROUP='M' and foxml:datastreamVersion[last()][@MIMETYPE='text/xml' or @MIMETYPE='application/xml' or @MIMETYPE='application/rdf+xml' or @MIMETYPE='text/html' or @MIMETYPE='chemical/x-cml']">
+          <xsl:when test="@CONTROL_GROUP='M' and foxml:datastreamVersion[last()][@MIMETYPE='text/xml' or @MIMETYPE='application/xml' or @MIMETYPE='application/rdf+xml' or @MIMETYPE='text/html']">
             <!-- TODO: should do something about mime type filtering
               text/plain should use the getDatastreamText extension because document will only work for xml docs
               xml files should use the document function
@@ -230,14 +153,14 @@
                handle the mimetypes supported by the "getDatastreamText" call:
                https://github.com/fcrepo/gsearch/blob/master/FedoraGenericSearch/src/java/dk/defxws/fedoragsearch/server/TransformerToText.java#L185-L200
           -->
-          <xsl:when test="@CONTROL_GROUP='M' and foxml:datastreamVersion[last() and not(starts-with(@MIMETYPE, 'image') or starts-with(@MIMETYPE, 'audio') or starts-with(@MIMETYPE, 'video') or @MIMETYPE = 'application/pdf')]">
+          <xsl:when test="@CONTROL_GROUP='M' and foxml:datastreamVersion[last() and not(starts-with(@MIMETYPE, 'image'))]">
             <!-- TODO: should do something about mime type filtering
               text/plain should use the getDatastreamText extension because document will only work for xml docs
               xml files should use the document function
               other mimetypes should not be being sent
               will this let us not use the content variable? -->
             <xsl:apply-templates select="foxml:datastreamVersion[last()]">
-              <xsl:with-param name="content" select="java:ca.discoverygarden.gsearch_extensions.XMLStringUtils.escapeForXML(normalize-space(exts:getDatastreamText($PID, $REPOSITORYNAME, @ID, $FEDORASOAP, $FEDORAUSER, $FEDORAPASS, $TRUSTSTOREPATH, $TRUSTSTOREPASS)))"/>
+              <xsl:with-param name="content" select="normalize-space(exts:getDatastreamText($PID, $REPOSITORYNAME, @ID, $FEDORASOAP, $FEDORAUSER, $FEDORAPASS, $TRUSTSTOREPATH, $TRUSTSTOREPASS))"/>
             </xsl:apply-templates>
           </xsl:when>
         </xsl:choose>
@@ -253,28 +176,6 @@
         <xsl:with-param name="pid" select="$PID"/>
         <xsl:with-param name="suffix">_s</xsl:with-param>
       </xsl:apply-templates>
-      -->
-
-      <!-- Index ancestors, as used in the islandora_collection_search module.
-        Requires the "hierarchy.xslt" to be included (uncomment near the top of
-        the file?).
-        Also, note: When migrating objects between collections, it would be
-        necessary to update all descendents to ensure their list of ancestors
-        reflect the current state... We do this in the
-        islandora_collection_search module when migrating, instead of
-        reindexing all the descendents whenever indexing an object
-        (updating a collection label would be fairly expensive if we blindly
-        reindexed). -->
-      <!--
-      <xsl:variable name="ancestors">
-        <xsl:call-template name="get-ancestors">
-          <xsl:with-param name="PID" select="$PID" />
-        </xsl:call-template>
-      </xsl:variable>
-
-      <xsl:for-each select="xalan:nodeset($ancestors)//sparql:obj[@uri != concat('info:fedora/', $PID)]">
-        <field name="ancestors_ms"><xsl:value-of select="substring-after(@uri, '/')"/></field>
-      </xsl:for-each>
       -->
 
     </doc>
